@@ -14,7 +14,7 @@
 
 ## Estructura del Proyecto
 
-### Controladores
+### Controladores Web
 
 -   **ClientController**
     -   **index** - Listado con filtros, paginación y vista **client.index**.
@@ -25,12 +25,21 @@
 -   **ContractController**
     -   **destroy** - Eliminación con retorno al listado de clientes.
 
+### Controladores API REST
+
+-   **ClientApiController**
+    -   **index** - Retorna un JSON con todos los clientes y sus contratos.
+-   **ContractApiController**
+    -   **store** - Crea un contrato asociado a un cliente existente, con validación (**StoreContractRequest**).
+
 ### Requests
 
 -   **StoreClientRequest**
     -   Validaciones: **name, email** (único), **phone** (opcional).
 -   **StoreContractRequest**
     -   Validaciones: **client_id, contract_number** (único, rango 10000-99999), **amount, starts_at, ends_at** (>= starts_at).
+-   **UpdateClientRequest**
+    -   Validaciones: **name, email** (único), **phone** (opcional).
 
 ### Modelos
 
@@ -61,7 +70,7 @@
 -   **CSS**: estilos para alerts y dropdowns.
 -   **JS**: dismiss automático de alerts (7.5s).
 
-### Rutas
+### Rutas Web
 
 ```php
 Route::get('/', function () {
@@ -77,4 +86,13 @@ Route::resource('contratos', ContractController::class)
     ->parameters(["contratos" => "contract"])
     ->names('contract')
     ->only('destroy');
+```
+
+### Rutas API
+
+```php
+
+Route::get('/clients', [ClientApiController::class, 'index']);
+Route::post('/contracts', [ContractApiController::class, 'store']);
+
 ```
