@@ -14,6 +14,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Client::factory(10)
+            ->has(Contract::factory()->count(14)) // cada cliente tendra 3 contratos
+            ->create();
     }
 }
